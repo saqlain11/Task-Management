@@ -1,32 +1,16 @@
-import "App.css";
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "pages/NotFound";
 import { TaskTable } from "components";
-import { Provider, useSelector } from "react-redux";
-import store from "redux/store";
-
 
 const App: React.FC = () => {
-  const global=useSelector(state=>state)
-  console.log("global",global);
   return (
-    <Provider store={store}>
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <TaskTable></TaskTable>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-    </Provider>
+    <Router>
+      <Routes>
+        <Route index element={<TaskTable />}></Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 };
 

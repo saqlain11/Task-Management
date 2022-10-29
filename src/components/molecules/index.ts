@@ -1,1 +1,2 @@
-export { default as Table } from "./Table";
+export { default as TaskList } from "./TaskList";
+export { default as TaskHeader } from "./TaskHeader";

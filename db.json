@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "taskName": "Task 1",
+      "description": "Task one description",
+      "status": "IN PROGRESS",
+      "subTasks": [
+        {
+          "Id": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "taskName": "Task 2",
+      "description": "Task two description",
+      "status": "IN PROGRESS",
+      "subTasks": []
+    }
+  ],
+
+  "connections": []
+}

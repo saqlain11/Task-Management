@@ -1,10 +1,11 @@
-import { Table } from "components/molecules";
+import { TaskList, TaskHeader } from "components/molecules";
+import { useAppSelector } from "hooks";
 import React from "react";
 const TaskTable: React.FC = () => {
   return (
     <>
-      <div>Cool</div>
-      <Table></Table>
+      <TaskHeader />
+      <TaskList />
     </>
   );
 };
