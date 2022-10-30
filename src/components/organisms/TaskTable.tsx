@@ -1,10 +1,10 @@
 import { TaskList, TaskHeader } from "components/molecules";
-import { useAppSelector } from "hooks";
+import { UI_TEXT } from "helpers/constants";
 import React from "react";
 const TaskTable: React.FC = () => {
   return (
     <>
-      <TaskHeader />
+      <TaskHeader buttonTitle={UI_TEXT.ALL_TASK.HEADER.ADD_NEW_TASK} url="" />
       <TaskList />
     </>
   );

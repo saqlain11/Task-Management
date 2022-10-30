@@ -1,18 +1,10 @@
-import { TableProps } from "antd";
-import { Table } from "antd";
+import { Checkbox, TableProps, Table } from "antd";
 import type { ColumnsType, FilterValue } from "antd/es/table/interface";
 import React, { useState } from "react";
 import SubTaskList from "./SubTaskList";
+import TaskListProps from "./TaskList.props";
 
-interface DataType {
-  id: number;
-  taskName: string;
-  description: string;
-  status: string;
-  subTask?: DataType[];
-}
-
-const data: DataType[] = [
+const data: TaskListProps[] = [
   {
     id: 1,
     taskName: "Task 1",
@@ -58,14 +50,14 @@ const TaskList: React.FC = () => {
     Record<string, FilterValue | null>
   >({});
 
-  const handleChange: TableProps<DataType>["onChange"] = (
+  const handleChange: TableProps<TaskListProps>["onChange"] = (
     pagination,
     filters
   ) => {
     console.log("Various parameters", pagination, filters);
     setFilteredInfo(filters);
   };
-  const columns: ColumnsType<DataType> = [
+  const taskColumns: ColumnsType<TaskListProps> = [
     {
       title: "Task ID",
       dataIndex: "id",
@@ -96,7 +88,18 @@ const TaskList: React.FC = () => {
         { text: "COMPLETE", value: "COMPLETE" },
       ],
       filteredValue: filteredInfo.status || null,
-      onFilter: (value: string, record) => record.status.includes(value),
+      onFilter: (value: string, record: TaskListProps) =>
+        record.status.includes(value),
+      ellipsis: true,
+    },
+    {
+      title: "Change Status",
+      dataIndex: "status",
+      render: (text) => (
+        <Checkbox checked={["DONE", "COMPLETE"].includes(text)}>
+          {"DONE"}
+        </Checkbox>
+      ),
       ellipsis: true,
     },
 
@@ -107,22 +110,17 @@ const TaskList: React.FC = () => {
     <>
       <Table
         rowKey="id"
-        columns={columns}
+        columns={taskColumns}
         dataSource={data}
         onChange={handleChange}
         expandable={{
-          expandedRowRender: (record) => (
-            <SubTaskList subTask={record.subTask} />
-          ),
+          expandedRowRender: (record) => <SubTaskList record={record} />,
           rowExpandable: (record) => !!record.subTask?.length,
         }}
         pagination={{
           total: 0,
           pageSize: 20,
           showSizeChanger: true,
-          onChange: (page, size) => {
-            // onPageChange(page, size);
-          },
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} items`,
         }}

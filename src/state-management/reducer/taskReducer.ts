@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 //TODO: Have to maintain this in separate type def file
-type status = "In-Progress" | "Done" | "Complete";
+type status = "IN PROGRESS" | "DONE" | "COMPLETE";
 
 interface Tasks {
   name: string;
@@ -18,12 +18,20 @@ interface Tasks {
 export interface TaskState {
   isLoading: boolean;
   errorMessage: string;
+  page: {
+    pageNo: number;
+    pageOffset: number;
+  };
   tasks: Array<Tasks>;
 }
 const initialTaskState: TaskState = {
   isLoading: false,
   errorMessage: "",
   tasks: [],
+  page: {
+    pageNo: 0,
+    pageOffset: 20,
+  },
 };
 
 const taskReducer = createSlice({
