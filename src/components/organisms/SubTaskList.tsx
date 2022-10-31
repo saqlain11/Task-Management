@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Space, Tag, Table, Checkbox } from "antd";
 import { color } from "theme";
 import TaskListProps from "./TaskList.props";
 import { UI_TEXT } from "helpers/constants";
 import type { ColumnsType } from "antd/es/table/interface";
+import { useState } from "react";
+import { calculateDependencies } from "helpers/utils";
 
-const SubTaskList: React.FC<{ record: TaskListProps }> = ({ record }) => {
-  const { subTask } = record;
+type dependencies = {
+  total: number;
+  done: number;
+  complete: number;
+};
+const SubTaskList: React.FC<{ subTask: TaskListProps[] }> = ({ subTask }) => {
+  const [dependencies, setDependencies] = useState<dependencies>({
+    total: 0,
+    done: 0,
+    complete: 0,
+  });
+  useEffect(() => {
+    if (subTask.length) {
+      setDependencies(calculateDependencies(subTask));
+    }
+  }, [subTask]);
+
   const subTaskColumns: ColumnsType<TaskListProps> = [
     {
       title: "Task ID",
@@ -47,14 +64,15 @@ const SubTaskList: React.FC<{ record: TaskListProps }> = ({ record }) => {
   return (
     <>
       <Space direction="horizontal">
+        {/* TODO: have to handle with Map */}
         <Tag color={color.geek_blue}>
-          {`${UI_TEXT.ALL_TASK.SUB_TASK.TOTAL_DEPENDENCIES} ${subTask?.length}`}{" "}
+          {`${UI_TEXT.ALL_TASK.SUB_TASK.TOTAL_DEPENDENCIES} ${dependencies.total}`}
         </Tag>
         <Tag
           color={color.dark_blue}
-        >{`${UI_TEXT.ALL_TASK.SUB_TASK.DONE_DEPENDENCIES} ${subTask?.length}`}</Tag>
+        >{`${UI_TEXT.ALL_TASK.SUB_TASK.DONE_DEPENDENCIES} ${dependencies.done}`}</Tag>
         <Tag color={color.dark_green}>
-          {`${UI_TEXT.ALL_TASK.SUB_TASK.COMPLETE_DEPENDENCIES} ${subTask?.length}`}
+          {`${UI_TEXT.ALL_TASK.SUB_TASK.COMPLETE_DEPENDENCIES} ${dependencies.complete}`}
         </Tag>
       </Space>
       <Table

@@ -3,5 +3,5 @@ export default interface TaskListProps {
   taskName: string;
   description: string;
   status: string;
-  subTask?: TaskListProps[];
+  subTask?: number[];
 }

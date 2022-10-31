@@ -5,20 +5,14 @@
       "taskName": "Task 1",
       "description": "Task one description",
       "status": "IN PROGRESS",
-      "subTasks": [
-        {
-          "Id": 2
-        }
-      ]
+      "subTask": [2]
     },
     {
       "id": 2,
       "taskName": "Task 2",
-      "description": "Task two description",
-      "status": "IN PROGRESS",
-      "subTasks": []
+      "description": "Task Three description",
+      "status": "DONE",
+      "subTask": []
     }
-  ],
-
-  "connections": []
+  ]
 }

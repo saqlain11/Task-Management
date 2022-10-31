@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "format": "prettier -c -w .",
     "lint": "eslint .",
-    "server": "json-server --watch db.json"
+    "server": "json-server --watch db.json -p=1996"
   },
   "eslintConfig": {
     "extends": [

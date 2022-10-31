@@ -1,51 +1,20 @@
-import { Checkbox, TableProps, Table } from "antd";
+import { Checkbox, TableProps } from "antd";
+import { Table } from "antd";
 import type { ColumnsType, FilterValue } from "antd/es/table/interface";
+import { useAppSelector } from "hooks";
 import React, { useState } from "react";
 import SubTaskList from "./SubTaskList";
 import TaskListProps from "./TaskList.props";
 
-const data: TaskListProps[] = [
-  {
-    id: 1,
-    taskName: "Task 1",
-    description: "Task 1 description",
-    status: "IN PROGRESS",
-    subTask: [
-      {
-        id: 5,
-        taskName: "Task 1",
-        description: "Task 1 description",
-        status: "DONE",
-      },
-      {
-        id: 6,
-        taskName: "Task 1",
-        description: "Task 1 description",
-        status: "DONE",
-      },
-    ],
-  },
-  {
-    id: 2,
-    taskName: "Task 2",
-    description: "Task 2 description",
-    status: "IN PROGRESS",
-  },
-  {
-    id: 3,
-    taskName: "Task 3",
-    description: "Task 3 description",
-    status: "COMPLETE",
-  },
-  {
-    id: 4,
-    taskName: "Task 4",
-    description: "Task 4 description",
-    status: "DONE",
-  },
-];
+const TaskList: React.FC<{
+  getAllTask: (page: number, limit: number) => void;
+}> = ({ getAllTask }) => {
+  const {
+    isLoading,
+    pagination: { page, limit },
+    task,
+  } = useAppSelector((state) => state.Task);
 
-const TaskList: React.FC = () => {
   const [filteredInfo, setFilteredInfo] = useState<
     Record<string, FilterValue | null>
   >({});
@@ -54,10 +23,12 @@ const TaskList: React.FC = () => {
     pagination,
     filters
   ) => {
-    console.log("Various parameters", pagination, filters);
     setFilteredInfo(filters);
+    if (page !== pagination.current || limit !== pagination.pageSize) {
+      getAllTask(pagination.current, pagination.pageSize);
+    }
   };
-  const taskColumns: ColumnsType<TaskListProps> = [
+  const columns: ColumnsType<TaskListProps> = [
     {
       title: "Task ID",
       dataIndex: "id",
@@ -110,16 +81,25 @@ const TaskList: React.FC = () => {
     <>
       <Table
         rowKey="id"
-        columns={taskColumns}
-        dataSource={data}
+        loading={isLoading}
+        columns={columns}
+        dataSource={task}
         onChange={handleChange}
         expandable={{
-          expandedRowRender: (record) => <SubTaskList record={record} />,
+          expandedRowRender: (record) => {
+            const subTask = record.subTask.map((taskId) => {
+              return task.find((task) => {
+                return taskId === task.id;
+              });
+            });
+
+            return <SubTaskList subTask={subTask} />;
+          },
           rowExpandable: (record) => !!record.subTask?.length,
         }}
         pagination={{
-          total: 0,
-          pageSize: 20,
+          total: page,
+          pageSize: limit,
           showSizeChanger: true,
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} items`,

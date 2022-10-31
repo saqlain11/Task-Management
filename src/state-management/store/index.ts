@@ -3,7 +3,7 @@ import { taskReducer } from "state-management/reducer";
 
 const store = configureStore({
   reducer: {
-    Tasks: taskReducer,
+    Task: taskReducer,
   },
 });
 

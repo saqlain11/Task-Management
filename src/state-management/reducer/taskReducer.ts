@@ -1,36 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { allTask } from "state-management/actions";
 
 //TODO: Have to maintain this in separate type def file
 type status = "IN PROGRESS" | "DONE" | "COMPLETE";
 
-interface Tasks {
-  name: string;
+export interface Task {
+  id: number;
+  taskName: string;
   status: status;
   description: string;
-  subTasks?: {
-    name: string;
-    status: status;
-  };
-  connections?: Array<{
-    name: string;
-  }>;
+  subTask?: number[];
 }
 export interface TaskState {
   isLoading: boolean;
   errorMessage: string;
-  page: {
-    pageNo: number;
-    pageOffset: number;
+  pagination: {
+    page: number;
+    limit: number;
   };
-  tasks: Array<Tasks>;
+  task: Array<Task>;
 }
 const initialTaskState: TaskState = {
   isLoading: false,
   errorMessage: "",
-  tasks: [],
-  page: {
-    pageNo: 0,
-    pageOffset: 20,
+  task: [],
+  pagination: {
+    page: 1,
+    limit: 20,
   },
 };
 
@@ -39,8 +35,14 @@ const taskReducer = createSlice({
   initialState: initialTaskState,
   reducers: {},
   extraReducers(builder) {
-    // builder.addCase(
-    // )
+    builder.addCase(allTask.pending, (state: TaskState) => {
+      state.isLoading = true;
+    });
+    builder.addCase(allTask.fulfilled, (state: TaskState, { payload }) => {
+      state.isLoading = false;
+      state.task = payload.data;
+      state.pagination = payload.pagination;
+    });
   },
 });
 export default taskReducer.reducer;

@@ -1,7 +1,8 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
+import { UI_TEXT } from "helpers/constants";
 import React from "react";
 
-const TaskInputs = () => {
+const TaskForm: React.FC = () => {
   const REQUIRED = "${label} is required!";
   const { Option } = Select;
   return (
@@ -40,7 +41,12 @@ const TaskInputs = () => {
           span={12}
           md={12}
           sm={24}
-          style={{ display: "flex", justifyContent: "end" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-end",
+          }}
         >
           <Button
             style={{ width: "30%" }}
@@ -49,7 +55,7 @@ const TaskInputs = () => {
             loading={false}
             type="primary"
           >
-            Add task
+            {UI_TEXT.CREATE_TASK.CTA.ADD_TASK}
           </Button>
         </Col>
       </Row>
@@ -57,4 +63,4 @@ const TaskInputs = () => {
   );
 };
 
-export default TaskInputs;
+export default TaskForm;

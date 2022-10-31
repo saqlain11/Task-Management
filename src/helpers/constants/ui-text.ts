@@ -5,6 +5,7 @@ const UI_TEXT = {
   ALL_TASK: {
     HEADER: {
       ADD_NEW_TASK: "Add New Task",
+      ALL_TASK: "All Task",
     },
     SUB_TASK: {
       TOTAL_DEPENDENCIES: "Total dependencies: ",
@@ -15,6 +16,9 @@ const UI_TEXT = {
   CREATE_TASK: {
     HEADER: {
       ALL_TASK: "All Task",
+    },
+    CTA: {
+      ADD_TASK: "Add Task",
     },
   },
   PAGE_NOT_FOUND: {

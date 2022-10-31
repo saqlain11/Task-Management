@@ -1,15 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import NotFound from "pages/NotFound";
-import { TaskTable } from "components";
-import TaskInputs from "components/molecules/TaskFields";
+import NotFound from "templates/NotFound";
+import AllTask from "templates/AllTask";
+import CreateTask from "templates/CreateTask";
+import { ROUTES } from "helpers/constants";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route index element={<TaskTable />}></Route>
-        <Route path="/addtask" element={<TaskInputs />}></Route>
+        <Route index element={<AllTask />}></Route>
+        <Route path={ROUTES.ADD_TASK} element={<CreateTask />}></Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
