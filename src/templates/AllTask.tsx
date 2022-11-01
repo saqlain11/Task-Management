@@ -1,9 +1,10 @@
 import { TaskList, TaskHeader } from "components/organisms";
-import { UI_TEXT } from "helpers/constants";
+import { ROUTES, UI_TEXT } from "helpers/constants";
 import { useEffect } from "react";
 import { allTask } from "state-management/actions";
 import { useAppDispatch, useAppSelector } from "hooks";
 import React from "react";
+import { Layout } from "antd";
 const AllTask: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
@@ -18,10 +19,13 @@ const AllTask: React.FC = () => {
   };
 
   return (
-    <>
-      <TaskHeader buttonTitle={UI_TEXT.ALL_TASK.HEADER.ADD_NEW_TASK} url="" />
+    <Layout style={{ height: "100vh", padding: "16px", overflow: "scroll" }}>
+      <TaskHeader
+        buttonTitle={UI_TEXT.ALL_TASK.HEADER.ADD_NEW_TASK}
+        url={ROUTES.ADD_TASK}
+      />
       <TaskList getAllTask={getAllTask} />
-    </>
+    </Layout>
   );
 };
 export default AllTask;

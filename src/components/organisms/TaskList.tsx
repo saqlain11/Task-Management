@@ -2,16 +2,16 @@ import { Checkbox, TableProps } from "antd";
 import { Table } from "antd";
 import type { ColumnsType, FilterValue } from "antd/es/table/interface";
 import { useAppSelector } from "hooks";
+import { Task } from "model";
 import React, { useState } from "react";
 import SubTaskList from "./SubTaskList";
-import TaskListProps from "./TaskList.props";
 
 const TaskList: React.FC<{
   getAllTask: (page: number, limit: number) => void;
 }> = ({ getAllTask }) => {
   const {
     isLoading,
-    pagination: { page, limit },
+    pagination: { page, limit, total },
     task,
   } = useAppSelector((state) => state.Task);
 
@@ -19,16 +19,14 @@ const TaskList: React.FC<{
     Record<string, FilterValue | null>
   >({});
 
-  const handleChange: TableProps<TaskListProps>["onChange"] = (
-    pagination,
-    filters
-  ) => {
+  const handleChange: TableProps<Task>["onChange"] = (pagination, filters) => {
     setFilteredInfo(filters);
+    console.log("pagination", pagination);
     if (page !== pagination.current || limit !== pagination.pageSize) {
-      getAllTask(pagination.current, pagination.pageSize);
+      getAllTask(pagination.current || page, pagination.pageSize || limit);
     }
   };
-  const columns: ColumnsType<TaskListProps> = [
+  const columns: ColumnsType<Task> = [
     {
       title: "Task ID",
       dataIndex: "id",
@@ -59,8 +57,7 @@ const TaskList: React.FC<{
         { text: "COMPLETE", value: "COMPLETE" },
       ],
       filteredValue: filteredInfo.status || null,
-      onFilter: (value: string, record: TaskListProps) =>
-        record.status.includes(value),
+      onFilter: (value: string, record: Task) => record.status.includes(value),
       ellipsis: true,
     },
     {
@@ -87,7 +84,7 @@ const TaskList: React.FC<{
         onChange={handleChange}
         expandable={{
           expandedRowRender: (record) => {
-            const subTask = record.subTask.map((taskId) => {
+            const subTask = record.subTask?.map((taskId) => {
               return task.find((task) => {
                 return taskId === task.id;
               });
@@ -98,12 +95,13 @@ const TaskList: React.FC<{
           rowExpandable: (record) => !!record.subTask?.length,
         }}
         pagination={{
-          total: page,
+          total: total,
           pageSize: limit,
           showSizeChanger: true,
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} items`,
         }}
+        scroll={{ y: 400 }}
       />
     </>
   );

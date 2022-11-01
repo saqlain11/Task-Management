@@ -1,32 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { allTask } from "state-management/actions";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { API_MESSAGES } from "helpers/constants";
+import { Task } from "model";
+import { allTask, createTask } from "state-management/actions";
 
-//TODO: Have to maintain this in separate type def file
-type status = "IN PROGRESS" | "DONE" | "COMPLETE";
-
-export interface Task {
-  id: number;
-  taskName: string;
-  status: status;
-  description: string;
-  subTask?: number[];
-}
 export interface TaskState {
   isLoading: boolean;
   errorMessage: string;
+  successMessage: string;
   pagination: {
     page: number;
     limit: number;
+    total: number;
   };
   task: Array<Task>;
 }
 const initialTaskState: TaskState = {
   isLoading: false,
   errorMessage: "",
+  successMessage: "",
   task: [],
   pagination: {
     page: 1,
     limit: 20,
+    total: 0,
   },
 };
 
@@ -35,14 +31,36 @@ const taskReducer = createSlice({
   initialState: initialTaskState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(allTask.pending, (state: TaskState) => {
-      state.isLoading = true;
-    });
     builder.addCase(allTask.fulfilled, (state: TaskState, { payload }) => {
       state.isLoading = false;
       state.task = payload.data;
-      state.pagination = payload.pagination;
+      state.pagination = payload.paginationUpdate;
     });
+
+    builder.addCase(createTask.fulfilled, (state: TaskState, { payload }) => {
+      state.task.push(payload);
+      state.isLoading = false;
+      state.successMessage = API_MESSAGES.TASK_ADDED_SUCCESS;
+    });
+
+    builder.addCase(allTask.rejected, (state: TaskState, { payload }) => {
+      state.isLoading = false;
+      state.task = [];
+      state.errorMessage = payload as string;
+    });
+
+    builder.addCase(createTask.rejected, (state: TaskState, { payload }) => {
+      state.isLoading = false;
+      state.errorMessage = payload as string;
+    });
+
+    builder.addMatcher(
+      isAnyOf(allTask.pending, createTask.pending),
+      (state: TaskState) => {
+        console.log("here");
+        state.isLoading = true;
+      }
+    );
   },
 });
 export default taskReducer.reducer;

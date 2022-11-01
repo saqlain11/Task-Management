@@ -1,2 +1,3 @@
-export { default as useAppDispatch } from "./useAppDisptach";
+export { default as useAppDispatch } from "./useAppDispatch";
 export { default as useAppSelector } from "./useAppSelector";
+export { default as useDependencies } from "./useDependencies";

@@ -1,1 +1,1 @@
-export { allTask } from "./TaskAction";
+export { allTask, createTask, updateTask } from "./TaskAction";

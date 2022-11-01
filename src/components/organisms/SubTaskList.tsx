@@ -1,30 +1,30 @@
 import React, { useEffect } from "react";
 import { Space, Tag, Table, Checkbox } from "antd";
 import { color } from "theme";
-import TaskListProps from "./TaskList.props";
 import { UI_TEXT } from "helpers/constants";
 import type { ColumnsType } from "antd/es/table/interface";
 import { useState } from "react";
 import { calculateDependencies } from "helpers/utils";
+import { Task } from "model";
 
 type dependencies = {
   total: number;
   done: number;
   complete: number;
 };
-const SubTaskList: React.FC<{ subTask: TaskListProps[] }> = ({ subTask }) => {
+const SubTaskList: React.FC<{ subTask: Task[] }> = ({ subTask }) => {
   const [dependencies, setDependencies] = useState<dependencies>({
     total: 0,
     done: 0,
     complete: 0,
   });
   useEffect(() => {
-    if (subTask.length) {
+    if (subTask?.length) {
       setDependencies(calculateDependencies(subTask));
     }
   }, [subTask]);
 
-  const subTaskColumns: ColumnsType<TaskListProps> = [
+  const subTaskColumns: ColumnsType<Task> = [
     {
       title: "Task ID",
       dataIndex: "id",

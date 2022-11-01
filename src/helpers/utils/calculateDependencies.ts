@@ -1,4 +1,4 @@
-import { TaskListProps } from "components";
+import { Task } from "model";
 
 type dependencies = {
   total: number;
@@ -6,7 +6,7 @@ type dependencies = {
   complete: number;
 };
 
-const calculateDependencies = (subTask: TaskListProps[]): dependencies => {
+const calculateDependencies = (subTask: Task[]): dependencies => {
   return subTask.reduce(
     (allCount, task) => {
       if (task.status === "COMPLETE") {
