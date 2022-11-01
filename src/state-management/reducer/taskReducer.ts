@@ -29,7 +29,12 @@ const initialTaskState: TaskState = {
 const taskReducer = createSlice({
   name: "Task",
   initialState: initialTaskState,
-  reducers: {},
+  reducers: {
+    clearMessages: (state) => {
+      state.errorMessage = "";
+      state.successMessage = "";
+    },
+  },
   extraReducers(builder) {
     builder.addCase(allTask.fulfilled, (state: TaskState, { payload }) => {
       state.isLoading = false;
@@ -57,10 +62,11 @@ const taskReducer = createSlice({
     builder.addMatcher(
       isAnyOf(allTask.pending, createTask.pending),
       (state: TaskState) => {
-        console.log("here");
         state.isLoading = true;
       }
     );
   },
 });
+const { clearMessages } = taskReducer.actions;
+export { clearMessages };
 export default taskReducer.reducer;

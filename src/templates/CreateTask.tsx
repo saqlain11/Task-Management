@@ -1,11 +1,12 @@
-import { TaskHeader, TaskField, Layout, Form, Alert } from "components";
+import { TaskHeader, TaskField, Layout, Form } from "components";
 import { UI_TEXT } from "helpers/constants";
-import { getTask } from "helpers/utils";
+import { getTask, toast } from "helpers/utils";
 import { useAppDispatch, useAppSelector, useDependencies } from "hooks";
 import { Task } from "model";
 import React from "react";
 import { useEffect } from "react";
 import { allTask, createTask, updateTask } from "state-management/actions";
+import { clearMessages } from "state-management/reducer";
 export interface CreateTask {
   parentTask?: number;
   taskName: string;
@@ -25,26 +26,42 @@ const CreateTask: React.FC = () => {
 
   useEffect(() => {
     if (successMessage) {
-      console.log("successMessage", successMessage);
-
       form.resetFields();
+      toast({
+        message: UI_TEXT.COMMON.Task_MANAGEMENT_SYSTEM,
+        description: successMessage,
+        type: "success",
+        onClose: () => {
+          dispatch(clearMessages());
+        },
+      });
+    } else if (errorMessage) {
+      toast({
+        message: UI_TEXT.COMMON.Task_MANAGEMENT_SYSTEM,
+        description: errorMessage,
+        type: "error",
+        onClose: () => {
+          dispatch(clearMessages());
+        },
+      });
     }
-  }, [successMessage]);
+  }, [successMessage, errorMessage]);
 
   const handleSubmit = (taskData: CreateTask) => {
     let hasCycle = false;
-    if (taskData.parentTask) {
+    const parentTask = taskData.parentTask;
+    if (parentTask) {
       hasCycle = checkCircularDependency(taskData.parentTask);
     }
     if (hasCycle) {
       console.log("has cycle");
     } else {
-      const parentTask = taskData.parentTask;
       delete taskData.parentTask;
       const data: Task = { ...taskData, status: "IN PROGRESS", subTask: [] };
       dispatch(createTask(data));
-      const singleTask = { ...getTask(task, parentTask) };
+      //After creating a task have to add subtask in the parent task
       if (parentTask) {
+        const singleTask = { ...getTask(task, parentTask) };
         const newTaskId = task[task.length - 1].id + 1;
         singleTask.subTask = [...singleTask.subTask, newTaskId];
         dispatch(updateTask(singleTask));
@@ -54,26 +71,6 @@ const CreateTask: React.FC = () => {
   return (
     <Layout style={{ height: "100vh", padding: "16px" }}>
       <TaskHeader buttonTitle={UI_TEXT.ALL_TASK.HEADER.ALL_TASK} url="/" />
-      {successMessage && (
-        <Alert
-          message={successMessage}
-          type="success"
-          closable
-          onClose={() => {
-            console.log("here");
-          }}
-        />
-      )}
-      {!errorMessage && (
-        <Alert
-          message={errorMessage}
-          type="error"
-          closable
-          onClose={() => {
-            console.log("here");
-          }}
-        />
-      )}
       <Form layout="vertical" form={form} onFinish={handleSubmit}>
         <TaskField />
       </Form>

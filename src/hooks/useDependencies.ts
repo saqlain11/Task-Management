@@ -1,11 +1,11 @@
 import { Task } from "model";
 import { useCallback, useMemo } from "react";
-
+// This methond Take task as input and make adjacent connection to finnd cyclic dependecy
 const useDependencies = (task: Task[]) => {
   const findCyclicDependencies = (definitions, identifier) => {
     const stack = [];
 
-    // Internal search function.
+    //search function.
     const search = (currentIdentifier) => {
       // If we have visited this node, return whether or not it is the one we
       // are looking for.

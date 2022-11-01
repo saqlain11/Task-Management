@@ -21,7 +21,6 @@ const TaskList: React.FC<{
 
   const handleChange: TableProps<Task>["onChange"] = (pagination, filters) => {
     setFilteredInfo(filters);
-    console.log("pagination", pagination);
     if (page !== pagination.current || limit !== pagination.pageSize) {
       getAllTask(pagination.current || page, pagination.pageSize || limit);
     }

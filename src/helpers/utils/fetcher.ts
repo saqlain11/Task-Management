@@ -3,7 +3,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 const fetcher = async (opts: AxiosRequestConfig, full: boolean) => {
   try {
     const response: AxiosResponse = await axios({ ...opts });
-    console.log("headers", response.headers);
     return full
       ? { data: response.data, count: response.headers["x-total-count"] }
       : response.data;
