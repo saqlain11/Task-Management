@@ -1,14 +1,20 @@
 import { Checkbox, TableProps } from "antd";
 import { Table } from "antd";
 import type { ColumnsType, FilterValue } from "antd/es/table/interface";
+import { ROUTES, UI_TEXT } from "helpers/constants";
+import { getSubTask } from "helpers/utils";
 import { useAppSelector } from "hooks";
 import { Task } from "model";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import SubTaskList from "./SubTaskList";
 
-const TaskList: React.FC<{
-  getAllTask: (page: number, limit: number) => void;
-}> = ({ getAllTask }) => {
+interface TaskListProps{
+    getAllTask: (page: number, limit: number) => void;
+    changeStatus:(task:Task,isChecked:boolean)=>void;
+  }
+
+const TaskList: React.FC<TaskListProps> = ({ getAllTask,changeStatus }) => {
   const {
     isLoading,
     pagination: { page, limit, total },
@@ -62,34 +68,37 @@ const TaskList: React.FC<{
     {
       title: "Change Status",
       dataIndex: "status",
-      render: (text) => (
-        <Checkbox checked={["DONE", "COMPLETE"].includes(text)}>
+      render: (text,record) => {
+       
+       return <Checkbox disabled={!!record.subTask.length}  onChange={(event)=>{changeStatus(record,event.target.checked)}} checked={["DONE", "COMPLETE"].includes(text)}>
           {"DONE"}
         </Checkbox>
+      },
+      ellipsis: true,
+    },
+    {
+      title: "Action",
+      render: (record) => (
+        <Link to={`${ROUTES.UPDATE_TASK.replace(":taskId",record.id)}`}>
+          {UI_TEXT.ALL_TASK.TASK.EDIT}
+        </Link>
       ),
       ellipsis: true,
     },
 
     Table.EXPAND_COLUMN,
   ];
-
   return (
-    <>
       <Table
         rowKey="id"
         loading={isLoading}
         columns={columns}
         dataSource={task}
         onChange={handleChange}
+      
         expandable={{
           expandedRowRender: (record) => {
-            const subTask = record.subTask?.map((taskId) => {
-              return task.find((task) => {
-                return taskId === task.id;
-              });
-            });
-
-            return <SubTaskList subTask={subTask} />;
+            return <SubTaskList subTask={[...getSubTask(task,record)]} changeStatus={changeStatus} />;
           },
           rowExpandable: (record) => !!record.subTask?.length,
         }}
@@ -102,7 +111,6 @@ const TaskList: React.FC<{
         }}
         scroll={{ y: 400 }}
       />
-    </>
   );
 };
 

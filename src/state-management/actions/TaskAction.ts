@@ -45,8 +45,8 @@ const createTask = createAsyncThunk(
 );
 
 const updateTask = createAsyncThunk(
-  "Task/updateSubTask",
-  async (task: Task, { rejectWithValue }) => {
+  "Task/updateTask",
+  async ({task,taskIndex}:{task:Task,taskIndex:number}, { rejectWithValue }) => {
     try {
       const options = {
         url: `${process.env.REACT_APP_TASK_OPERATION}/${task.id}`,
@@ -54,13 +54,12 @@ const updateTask = createAsyncThunk(
         data: task,
       };
       const data: Task = await fetcher(options, false);
-      return data;
+      return {data,taskIndex};
     } catch (err) {
       return rejectWithValue("Internal Server Error");
     }
   }
 );
 
-// const changeStatus = createAsyncThunk("Task/changeStatus", () => {});
 
 export { allTask, createTask, updateTask };

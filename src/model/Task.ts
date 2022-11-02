@@ -1,4 +1,4 @@
-type status = "IN PROGRESS" | "DONE" | "COMPLETE";
+export type status = "IN PROGRESS" | "DONE" | "COMPLETE";
 export interface Task {
   id?: number;
   taskName: string;

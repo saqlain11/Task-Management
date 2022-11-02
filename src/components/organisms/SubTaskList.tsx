@@ -6,13 +6,18 @@ import type { ColumnsType } from "antd/es/table/interface";
 import { useState } from "react";
 import { calculateDependencies } from "helpers/utils";
 import { Task } from "model";
+import { Link } from "react-router-dom";
 
 type dependencies = {
   total: number;
   done: number;
   complete: number;
 };
-const SubTaskList: React.FC<{ subTask: Task[] }> = ({ subTask }) => {
+interface SubTaskListProps{
+   subTask: Task[];
+   changeStatus:(task:Task,isChecked:boolean)=>void 
+}
+const SubTaskList: React.FC<SubTaskListProps> = ({ subTask,changeStatus }) => {
   const [dependencies, setDependencies] = useState<dependencies>({
     total: 0,
     done: 0,
@@ -53,10 +58,19 @@ const SubTaskList: React.FC<{ subTask: Task[] }> = ({ subTask }) => {
     {
       title: "Change Status",
       dataIndex: "status",
-      render: (text) => (
-        <Checkbox checked={["DONE", "COMPLETE"].includes(text)}>
+      render: (text,record) => (
+        <Checkbox disabled={!!record.subTask.length} onChange={(event)=>{changeStatus(record,event.target.checked)}} checked={["DONE", "COMPLETE"].includes(text)}>
           {"DONE"}
         </Checkbox>
+      ),
+      ellipsis: true,
+    },
+    {
+      title: "Action",
+      render: (record) => (
+        <Link to={`/${record.id}`}>
+          Edit
+        </Link>
       ),
       ellipsis: true,
     },
@@ -76,11 +90,6 @@ const SubTaskList: React.FC<{ subTask: Task[] }> = ({ subTask }) => {
         </Tag>
       </Space>
       <Table
-        onRow={(record) => ({
-          onClick: () => {
-            console.log("record", record);
-          },
-        })}
         rowKey="id"
         columns={subTaskColumns}
         dataSource={subTask}

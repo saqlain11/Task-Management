@@ -1,11 +1,10 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { UI_TEXT } from "helpers/constants";
+import { UI_TEXT, UI_VALIDATION } from "helpers/constants";
 import { useAppSelector } from "hooks";
 import React from "react";
 
 const TaskForm: React.FC = () => {
   const { isLoading, task } = useAppSelector((state) => state.Task);
-  const REQUIRED = "${label} is required!";
   const { Option } = Select;
 
   return (
@@ -14,7 +13,7 @@ const TaskForm: React.FC = () => {
         <Form.Item
           name="taskName"
           required
-          rules={[{ required: true, message: REQUIRED }]}
+          rules={[{ required: true, message: UI_VALIDATION.REQUIRED }]}
           label="Task Name"
         >
           <Input maxLength={30} />
@@ -23,7 +22,7 @@ const TaskForm: React.FC = () => {
       <Col span={12} md={12} sm={24}>
         <Form.Item
           name="description"
-          rules={[{ required: true, message: REQUIRED }]}
+          rules={[{ required: true, message:  UI_VALIDATION.REQUIRED }]}
           required
           label="Description"
         >

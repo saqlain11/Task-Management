@@ -4,113 +4,42 @@
       "id": 1,
       "taskName": "Task 1",
       "description": "Task one description",
-      "status": "IN PROGRESS",
-      "subTask": [2, 3]
+      "subTask": [
+        2,
+        3
+      ],
+      "status": "DONE"
     },
     {
       "id": 2,
       "taskName": "Task 2",
       "description": "Task Three description",
-      "status": "DONE",
+      "status": "IN PROGRESS",
       "subTask": []
     },
     {
       "id": 3,
       "taskName": "Task 3",
       "description": "Task Three description",
-      "status": "DONE",
+      "status": "COMPLETE",
+      "subTask": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 4,
+      "taskName": "Task 3",
+      "description": "Task Three description",
+      "status": "COMPLETE",
       "subTask": []
     },
     {
-      "taskName": "Task 4",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 4
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 5
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 6
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 7
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 8
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 9
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 10
-    },
-    {
-      "taskName": "Task 5 ",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [12],
-      "id": 11
-    },
-    {
-      "taskName": "New Task 12",
-      "description": "Some exciting Offer to take",
-      "status": "IN PROGRESS",
-      "subTask": [13],
-      "id": 12
-    },
-    {
-      "taskName": "New Task 13",
-      "description": "One For Task",
-      "status": "IN PROGRESS",
-      "subTask": [14],
-      "id": 13
-    },
-    {
-      "taskName": "New Task 14",
-      "description": "Oops need to Update that",
-      "status": "IN PROGRESS",
-      "subTask": [15],
-      "id": 14
-    },
-    {
-      "taskName": "New Task 15",
-      "description": "Amazing first item for iteming your items firstly ",
-      "status": "IN PROGRESS",
-      "subTask": [16],
-      "id": 15
-    },
-    {
-      "taskName": "New Task 15",
-      "description": "Amazing first item for iteming your items firstly ",
-      "status": "IN PROGRESS",
-      "subTask": [],
-      "id": 16
+      "id": 5,
+      "taskName": "Task 3",
+      "description": "Task Three description",
+      "status": "COMPLETE",
+      "subTask": []
     }
   ]
 }

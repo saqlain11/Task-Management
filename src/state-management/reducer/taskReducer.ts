@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { API_MESSAGES } from "helpers/constants";
 import { Task } from "model";
-import { allTask, createTask } from "state-management/actions";
+import { allTask, createTask, updateTask } from "state-management/actions";
 
 export interface TaskState {
   isLoading: boolean;
@@ -43,9 +43,13 @@ const taskReducer = createSlice({
     });
 
     builder.addCase(createTask.fulfilled, (state: TaskState, { payload }) => {
-      state.task.push(payload);
       state.isLoading = false;
+      state.task.push(payload);
       state.successMessage = API_MESSAGES.TASK_ADDED_SUCCESS;
+    });
+
+    builder.addCase(updateTask.fulfilled, (state: TaskState, { payload }) => {
+      state.task[payload.taskIndex]=payload.data;
     });
 
     builder.addCase(allTask.rejected, (state: TaskState, { payload }) => {

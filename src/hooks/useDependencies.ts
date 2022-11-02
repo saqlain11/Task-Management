@@ -1,6 +1,6 @@
 import { Task } from "model";
 import { useCallback, useMemo } from "react";
-// This methond Take task as input and make adjacent connection to finnd cyclic dependecy
+// This method Take task as input and make adjacent list assuming that it is directed graph connection to find cyclic dependecy
 const useDependencies = (task: Task[]) => {
   const findCyclicDependencies = (definitions, identifier) => {
     const stack = [];
@@ -56,10 +56,36 @@ const useDependencies = (task: Task[]) => {
     },
     [connections]
   );
+  const getParentTaskID=useCallback((subTaskID:number)=>{
+    const parents=[];
+      const backTrack=(start:number, target:number,visited = new Set())=> {
+        visited.add(start);
+        const connectors = connections[start];
+    
+        for (const connection of connectors) {
+            if (connection === target) { 
+                parents.push(start);
+                  return
+            }
+            
+            if (!visited.has(connection)) {
+              backTrack(connection, target,visited);
+            }
+    
+        }
+    
+    }
+    //Assuming that all nodes are connected so root node will be task at 0 index
+    backTrack(task[0].id,subTaskID)
+
+    return parents;
+
+  },[connections])
 
   return {
     connections,
     checkCircularDependency,
+    getParentTaskID
   };
 };
 export default useDependencies;

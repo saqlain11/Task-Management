@@ -6,7 +6,7 @@ interface Notification {
   message: string;
   description: string;
   type: type;
-  onClose: () => void;
+  onClose?: () => void;
 }
 const toast = ({ message, description, type, onClose }: Notification) => {
   return notification[type]({

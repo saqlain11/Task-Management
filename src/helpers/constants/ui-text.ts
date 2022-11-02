@@ -7,6 +7,9 @@ const UI_TEXT = {
       ADD_NEW_TASK: "Add New Task",
       ALL_TASK: "All Task",
     },
+    TASK:{
+      EDIT:"Edit"
+    },
     SUB_TASK: {
       TOTAL_DEPENDENCIES: "Total dependencies: ",
       DONE_DEPENDENCIES: "Done dependencies: ",
