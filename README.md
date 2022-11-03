@@ -89,7 +89,7 @@ Install Task-Management with npm
   npm install
 ```
 
-## Format & liniting of code
+## Format & linting of code
 
 To format & lint, run the following command
 
