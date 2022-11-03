@@ -91,7 +91,7 @@ Install Task-Management with npm
 
 ## Format & liniting of code
 
-To start the project,run the following command
+To format & lint, run the following command
 
 ```bash
   npm run format (this command will prettify you code)
@@ -100,7 +100,7 @@ To start the project,run the following command
 
 ## Start project
 
-To start the project,run the following command
+To start the project, run the following command
 
 ```bash
   npm start
