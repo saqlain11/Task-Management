@@ -119,7 +119,7 @@ run server on `localhost:1996` & run client on `localhost:3000`.
 | `taskName`    | `string`   | **Required**. Task Name        |
 | `description` | `string`   | **Required**. Task Description |
 | `status`      | `string`   | **Required**. Task Status      |
-| `subTask`     | `number[]` | **Required**. subtask          |
+| `subTask`     | `number[]` | **Optional**. subtask          |
 
 #### Get Tasks
 
