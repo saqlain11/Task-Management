@@ -9,12 +9,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SubTaskList from "./SubTaskList";
 
-interface TaskListProps{
-    getAllTask: (page: number, limit: number) => void;
-    changeStatus:(task:Task,isChecked:boolean)=>void;
-  }
+interface TaskListProps {
+  getAllTask: (page: number, limit: number) => void;
+  changeStatus: (task: Task, isChecked: boolean) => void;
+}
 
-const TaskList: React.FC<TaskListProps> = ({ getAllTask,changeStatus }) => {
+const TaskList: React.FC<TaskListProps> = ({ getAllTask, changeStatus }) => {
   const {
     isLoading,
     pagination: { page, limit, total },
@@ -68,18 +68,25 @@ const TaskList: React.FC<TaskListProps> = ({ getAllTask,changeStatus }) => {
     {
       title: "Change Status",
       dataIndex: "status",
-      render: (text,record) => {
-       
-       return <Checkbox disabled={!!record.subTask.length}  onChange={(event)=>{changeStatus(record,event.target.checked)}} checked={["DONE", "COMPLETE"].includes(text)}>
-          {"DONE"}
-        </Checkbox>
+      render: (text, record) => {
+        return (
+          <Checkbox
+            disabled={!!record.subTask.length}
+            onChange={(event) => {
+              changeStatus(record, event.target.checked);
+            }}
+            checked={["DONE", "COMPLETE"].includes(text)}
+          >
+            {"DONE"}
+          </Checkbox>
+        );
       },
       ellipsis: true,
     },
     {
       title: "Action",
       render: (record) => (
-        <Link to={`${ROUTES.UPDATE_TASK.replace(":taskId",record.id)}`}>
+        <Link to={`${ROUTES.UPDATE_TASK.replace(":taskId", record.id)}`}>
           {UI_TEXT.ALL_TASK.TASK.EDIT}
         </Link>
       ),
@@ -89,28 +96,33 @@ const TaskList: React.FC<TaskListProps> = ({ getAllTask,changeStatus }) => {
     Table.EXPAND_COLUMN,
   ];
   return (
-      <Table
-        rowKey="id"
-        loading={isLoading}
-        columns={columns}
-        dataSource={task}
-        onChange={handleChange}
-      
-        expandable={{
-          expandedRowRender: (record) => {
-            return <SubTaskList subTask={[...getSubTask(task,record)]} changeStatus={changeStatus} />;
-          },
-          rowExpandable: (record) => !!record.subTask?.length,
-        }}
-        pagination={{
-          total: total,
-          pageSize: limit,
-          showSizeChanger: true,
-          showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} items`,
-        }}
-        scroll={{ y: 400 }}
-      />
+    <Table
+      rowKey="id"
+      loading={isLoading}
+      columns={columns}
+      dataSource={task}
+      onChange={handleChange}
+      expandable={{
+        expandedRowRender: (record) => {
+          return (
+            <SubTaskList
+              subTask={[...getSubTask(task, record)]}
+              changeStatus={changeStatus}
+              parentTaskID={record.id}
+            />
+          );
+        },
+        rowExpandable: (record) => !!record.subTask?.length,
+      }}
+      pagination={{
+        total: total,
+        pageSize: limit,
+        showSizeChanger: true,
+        showTotal: (total, range) =>
+          `${range[0]}-${range[1]} of ${total} items`,
+      }}
+      scroll={{ y: 400 }}
+    />
   );
 };
 

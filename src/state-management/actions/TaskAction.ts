@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { API_MESSAGES } from "helpers/constants";
 import fetcher from "helpers/utils/fetcher";
 import { Task } from "model";
 const allTask = createAsyncThunk(
@@ -16,13 +17,12 @@ const allTask = createAsyncThunk(
         { url },
         true
       );
-      //TODO: have to update this
       return {
         data,
         paginationUpdate: { ...paginationUpdate, total: count || data.length },
       };
     } catch (err) {
-      return rejectWithValue("Internal Server Error");
+      return rejectWithValue(API_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   }
 );
@@ -39,14 +39,17 @@ const createTask = createAsyncThunk(
       const data: Task = await fetcher(options, false);
       return data;
     } catch (err) {
-      return rejectWithValue("Internal Server Error");
+      return rejectWithValue(API_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   }
 );
 
 const updateTask = createAsyncThunk(
   "Task/updateTask",
-  async ({task,taskIndex}:{task:Task,taskIndex:number}, { rejectWithValue }) => {
+  async (
+    { task, taskIndex }: { task: Task; taskIndex: number },
+    { rejectWithValue }
+  ) => {
     try {
       const options = {
         url: `${process.env.REACT_APP_TASK_OPERATION}/${task.id}`,
@@ -54,12 +57,11 @@ const updateTask = createAsyncThunk(
         data: task,
       };
       const data: Task = await fetcher(options, false);
-      return {data,taskIndex};
+      return { data, taskIndex };
     } catch (err) {
-      return rejectWithValue("Internal Server Error");
+      return rejectWithValue(API_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   }
 );
-
 
 export { allTask, createTask, updateTask };

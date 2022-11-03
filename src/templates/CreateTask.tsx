@@ -57,7 +57,7 @@ const CreateTask: React.FC = () => {
       toast({
         message: UI_TEXT.COMMON.Task_MANAGEMENT_SYSTEM,
         description: UI_VALIDATION.CYCLE_DEPENDENCY,
-        type: "error"
+        type: "error",
       });
     } else {
       delete taskData.parentTask;
@@ -66,10 +66,10 @@ const CreateTask: React.FC = () => {
       //After creating a task have to add subtask in the parent task
       if (parentTask) {
         const singleTask = { ...getTask(task, parentTask) };
-        const taskIndex=getTaskIndex(task,singleTask.id)
+        const taskIndex = getTaskIndex(task, singleTask.id);
         const newTaskId = task[task.length - 1].id + 1;
         singleTask.subTask = [...singleTask.subTask, newTaskId];
-        dispatch(updateTask({task:singleTask,taskIndex}));
+        dispatch(updateTask({ task: singleTask, taskIndex }));
       }
     }
   };
@@ -77,7 +77,7 @@ const CreateTask: React.FC = () => {
     <Layout style={{ height: "100vh", padding: "16px" }}>
       <TaskHeader buttonTitle={UI_TEXT.ALL_TASK.HEADER.ALL_TASK} url="/" />
       <Form layout="vertical" form={form} onFinish={handleSubmit}>
-        <TaskField />
+        <TaskField buttonTitle={UI_TEXT.CREATE_TASK.CTA.ADD_TASK} />
       </Form>
     </Layout>
   );

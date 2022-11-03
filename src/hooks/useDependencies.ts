@@ -1,6 +1,13 @@
 import { Task } from "model";
 import { useCallback, useMemo } from "react";
-// This method Take task as input and make adjacent list assuming that it is directed graph connection to find cyclic dependecy
+/**
+ * This method Take task as input and make adjacent list assuming that it is directed graph connection to find cyclic dependency
+ * @param {Task[]} task - All Task To make the adjacency list
+ * @returns {Function} findCyclicDependencies that is function to check tasks has the circular dependency in tree (DFS) or not
+ * @returns {Function} getParentTaskID that get parent task to the sub task by using backtracking DFS
+ */
+
+//
 const useDependencies = (task: Task[]) => {
   const findCyclicDependencies = (definitions, identifier) => {
     const stack = [];
@@ -43,49 +50,54 @@ const useDependencies = (task: Task[]) => {
   }, [task]);
 
   const checkCircularDependency = useCallback(
-    (taskID: number) => {
-      const newTask = task.length + 1;
-      connections[newTask] = [];
-      if (connections[taskID]) {
-        connections[taskID] = [...connections[taskID], newTask];
+    (parentTaskID: number, taskId?: number) => {
+      const newTask = taskId || task.length + 1;
+      if (!taskId) connections[newTask] = [];
+      if (connections[parentTaskID]) {
+        connections[parentTaskID] = [...connections[parentTaskID], newTask];
       } else {
-        connections[taskID] = [newTask];
+        connections[parentTaskID] = [newTask];
       }
-      const result = findCyclicDependencies(connections, taskID);
+      const result = findCyclicDependencies(connections, parentTaskID);
       return !!result.length;
     },
     [connections]
   );
-  const getParentTaskID=useCallback((subTaskID:number)=>{
-    const parents=[];
-      const backTrack=(start:number, target:number,visited = new Set())=> {
+  const getParentTaskID = useCallback(
+    (subTaskID: number) => {
+      const parents = [];
+      console.log("Adjacency List", connections);
+
+      const backTrack = (
+        start: number,
+        target: number,
+        visited = new Set()
+      ) => {
         visited.add(start);
         const connectors = connections[start];
-    
+
         for (const connection of connectors) {
-            if (connection === target) { 
-                parents.push(start);
-                  return
-            }
-            
-            if (!visited.has(connection)) {
-              backTrack(connection, target,visited);
-            }
-    
+          if (connection === target) {
+            parents.push(start);
+            return;
+          }
+          if (!visited.has(connection)) {
+            backTrack(connection, target, visited);
+          }
         }
-    
-    }
-    //Assuming that all nodes are connected so root node will be task at 0 index
-    backTrack(task[0].id,subTaskID)
+      };
+      //Assuming that all nodes are connected so root node will be task at 0 index
+      backTrack(task[0].id, subTaskID);
 
-    return parents;
-
-  },[connections])
+      return parents;
+    },
+    [connections]
+  );
 
   return {
     connections,
     checkCircularDependency,
-    getParentTaskID
+    getParentTaskID,
   };
 };
 export default useDependencies;

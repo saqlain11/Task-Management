@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Space, Tag, Table, Checkbox } from "antd";
 import { color } from "theme";
-import { UI_TEXT } from "helpers/constants";
+import { ROUTES, UI_TEXT } from "helpers/constants";
 import type { ColumnsType } from "antd/es/table/interface";
 import { useState } from "react";
 import { calculateDependencies } from "helpers/utils";
@@ -13,11 +13,16 @@ type dependencies = {
   done: number;
   complete: number;
 };
-interface SubTaskListProps{
-   subTask: Task[];
-   changeStatus:(task:Task,isChecked:boolean)=>void 
+interface SubTaskListProps {
+  subTask: Task[];
+  changeStatus: (task: Task, isChecked: boolean) => void;
+  parentTaskID: number;
 }
-const SubTaskList: React.FC<SubTaskListProps> = ({ subTask,changeStatus }) => {
+const SubTaskList: React.FC<SubTaskListProps> = ({
+  subTask,
+  changeStatus,
+  parentTaskID,
+}) => {
   const [dependencies, setDependencies] = useState<dependencies>({
     total: 0,
     done: 0,
@@ -58,8 +63,14 @@ const SubTaskList: React.FC<SubTaskListProps> = ({ subTask,changeStatus }) => {
     {
       title: "Change Status",
       dataIndex: "status",
-      render: (text,record) => (
-        <Checkbox disabled={!!record.subTask.length} onChange={(event)=>{changeStatus(record,event.target.checked)}} checked={["DONE", "COMPLETE"].includes(text)}>
+      render: (text, record) => (
+        <Checkbox
+          disabled={!!record.subTask.length}
+          onChange={(event) => {
+            changeStatus(record, event.target.checked);
+          }}
+          checked={["DONE", "COMPLETE"].includes(text)}
+        >
           {"DONE"}
         </Checkbox>
       ),
@@ -68,8 +79,13 @@ const SubTaskList: React.FC<SubTaskListProps> = ({ subTask,changeStatus }) => {
     {
       title: "Action",
       render: (record) => (
-        <Link to={`/${record.id}`}>
-          Edit
+        <Link
+          to={`${ROUTES.UPDATE_TASK.replace(
+            ":taskId",
+            record.id
+          )}/${parentTaskID}`}
+        >
+          {UI_TEXT.ALL_TASK.TASK.EDIT}
         </Link>
       ),
       ellipsis: true,

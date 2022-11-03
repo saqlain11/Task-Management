@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "state-management/store";
 import "antd/dist/antd.min.css";
+import { ErrorBoundary } from "middlewares";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Provider>
   </React.StrictMode>
 );

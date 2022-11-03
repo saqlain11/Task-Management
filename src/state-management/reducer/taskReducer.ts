@@ -49,7 +49,8 @@ const taskReducer = createSlice({
     });
 
     builder.addCase(updateTask.fulfilled, (state: TaskState, { payload }) => {
-      state.task[payload.taskIndex]=payload.data;
+      state.isLoading = false;
+      state.task[payload.taskIndex] = payload.data;
     });
 
     builder.addCase(allTask.rejected, (state: TaskState, { payload }) => {
@@ -64,7 +65,7 @@ const taskReducer = createSlice({
     });
 
     builder.addMatcher(
-      isAnyOf(allTask.pending, createTask.pending),
+      isAnyOf(allTask.pending, createTask.pending, updateTask.pending),
       (state: TaskState) => {
         state.isLoading = true;
       }
