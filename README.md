@@ -1,4 +1,3 @@
-
 # Task Management System
 
 Streamframe is a task management system that focuses on
@@ -8,7 +7,6 @@ following: `IN PROGRESS`,`DONE`, or `COMPLETE`. A task can be nested within anot
 individual task may have any number of dependencies but should never result in a circular
 dependency.
 
-
 ## Features
 
 - Create Task
@@ -17,6 +15,7 @@ dependency.
 - Update Task
 
 ## Folder Structure
+
 ```.
 ├── __fixtures__
 ├── components
@@ -80,6 +79,7 @@ dependency.
 ├── reportWebVitals.tsx
 └── setupTests.js
 ```
+
 ## Installation
 
 Install Task-Management with npm
@@ -88,33 +88,38 @@ Install Task-Management with npm
   nvm use (to set version, avoid from incompatibility of peer dependencies)
   npm install
 ```
+
 ## Format & liniting of code
+
 To start the project,run the following command
+
 ```bash
   npm run format (this command will prettify you code)
   npm run lint (this will find lint error in your code)
 ```
+
 ## Start project
+
 To start the project,run the following command
+
 ```bash
   npm start
 ```
 
 This command will up client and server concurrently.
-run server on ```localhost:1996``` & run client on ```localhost:3000```.
+run server on `localhost:1996` & run client on `localhost:3000`.
 
 ## API Reference
 
 #### Task Schema
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `int`    | **Required**. Task id      |
-| `taskName`    | `string` | **Required**. Task Name    |
-| `description`   | `string`    | **Required**. Task Description |
-| `status`    | `string`    | **Required**. Task Status    |
-| `subTask`| `number[]`    | **Required**. subtask |
-
+| Parameter     | Type       | Description                    |
+| :------------ | :--------- | :----------------------------- |
+| `id`          | `int`      | **Required**. Task id          |
+| `taskName`    | `string`   | **Required**. Task Name        |
+| `description` | `string`   | **Required**. Task Description |
+| `status`      | `string`   | **Required**. Task Status      |
+| `subTask`     | `number[]` | **Required**. subtask          |
 
 #### Get Tasks
 
@@ -138,16 +143,15 @@ To get task by pagination.
   POST /task
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `int`    | **Required**. Task id      |
-| `taskName`    | `string` | **Required**. Task Name    |
-| `description`   | `string`    | **Required**. Task Description |
-| `status`    | `string`    | **Required**. Task Status    |
-| `subTask`| `number[]`    | **Optional**. subtask |
+| Parameter     | Type       | Description                    |
+| :------------ | :--------- | :----------------------------- |
+| `id`          | `int`      | **Required**. Task id          |
+| `taskName`    | `string`   | **Required**. Task Name        |
+| `description` | `string`   | **Required**. Task Description |
+| `status`      | `string`   | **Required**. Task Status      |
+| `subTask`     | `number[]` | **Optional**. subtask          |
 
 To create a task.
-
 
 #### Update Task
 
@@ -155,20 +159,21 @@ To create a task.
   PUT /task/${id}
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `task_name`      | `string` | **Required**. name for task identify |
-| `status`      | `string` | **Required**.  for task status |
-| `description`      | `string` | **Required**. for understand the task |
-| `subTask`| `number[]`    | **Optional**. subtask |
+| Parameter     | Type       | Description                           |
+| :------------ | :--------- | :------------------------------------ |
+| `task_name`   | `string`   | **Required**. name for task identify  |
+| `status`      | `string`   | **Required**. for task status         |
+| `description` | `string`   | **Required**. for understand the task |
+| `subTask`     | `number[]` | **Optional**. subtask                 |
 
 To update a task.
 
 ## Tech Stack
+
 **Client:** `React`, `Redux`, `Thunk`, `Antd UI`, `Jest with RTL` (not implemented but have on field knowledge )
 
 **Server:** `Json-Server`
+
 ## Authors
 
 - [@saqlain](https://www.github.com/saqlain11)
-
