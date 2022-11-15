@@ -22,7 +22,10 @@ const UpdateTask: React.FC = () => {
   const { checkCircularDependency } = useDependencies(task);
   useEffect(() => {
     if (task.length) {
-      form.setFieldsValue({ ...getTask(task, +taskId), parentTask: subTaskId });
+      form.setFieldsValue({
+        ...getTask(task, +taskId),
+        parentTask: subTaskId,
+      });
     }
   }, [task]);
 

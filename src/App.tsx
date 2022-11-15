@@ -9,6 +9,8 @@ const NotFound = React.lazy(() => import("templates/NotFound"));
 const UpdateTask = React.lazy(() => import("templates/UpdateTask"));
 
 const App: React.FC = () => {
+  console.log("here");
+
   return (
     <Router>
       <Suspense

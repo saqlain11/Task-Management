@@ -10,7 +10,10 @@ const allTask = createAsyncThunk(
     try {
       if (pagination.page && pagination.limit) {
         url += `?_page=${pagination.page}&_limit=${pagination.limit}`;
-        paginationUpdate = { page: pagination.page, limit: pagination.limit };
+        paginationUpdate = {
+          page: pagination.page,
+          limit: pagination.limit,
+        };
       }
 
       const { data, count }: { data: Task[]; count: number } = await fetcher(
@@ -19,7 +22,10 @@ const allTask = createAsyncThunk(
       );
       return {
         data,
-        paginationUpdate: { ...paginationUpdate, total: count || data.length },
+        paginationUpdate: {
+          ...paginationUpdate,
+          total: count || data.length,
+        },
       };
     } catch (err) {
       return rejectWithValue(API_MESSAGES.INTERNAL_SERVER_ERROR);

@@ -61,7 +61,11 @@ const CreateTask: React.FC = () => {
       });
     } else {
       delete taskData.parentTask;
-      const data: Task = { ...taskData, status: "IN PROGRESS", subTask: [] };
+      const data: Task = {
+        ...taskData,
+        status: "IN PROGRESS",
+        subTask: [],
+      };
       dispatch(createTask(data));
       //After creating a task have to add subtask in the parent task
       if (parentTask) {
