@@ -30,7 +30,8 @@
     "format": "prettier -c -w .",
     "lint": "eslint .",
     "client": "react-scripts start",
-    "server": "json-server --watch db.json -p=1996"
+    "server": "json-server --watch db.json -p=1996",
+    "coverage": "npm run test -- --coverage ."
   },
   "eslintConfig": {
     "extends": [
